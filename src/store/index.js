@@ -9,7 +9,6 @@ const state = {
 const mutations = {
 
   setGender (state, n) {
-    console.log(n)
     state.genderSelection = n
   },
   setNationality (state, n) {

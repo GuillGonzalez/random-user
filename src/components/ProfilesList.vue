@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <vm-button>It works</vm-button>
     <h2>Profiles List</h2>
     <h2> {{ ageSelection }} </h2>
     <h2> {{ natSelection }} </h2>
@@ -50,6 +50,7 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import Slider from '@vueform/slider'
 import Toggle from '@vueform/toggle'
+import VmButton from 'vue3-material'
 
 export default {
   setup () {
@@ -69,14 +70,11 @@ export default {
     }.bind(this));
 
     function sortCountries (list) { 
-      console.log(list)
       list.forEach((e)=>{
-        console.log(e)
         if(!uniqueCountries.includes(e.nat)){
           uniqueCountries.push(e.nat)
         }
       })
-      console.log(`unique countries:${uniqueCountries}`)
      }
 
     store.commit('setGender', 'male')
@@ -112,7 +110,6 @@ export default {
       this.$store.commit('setAge', value)
     },
     updateGender (value) {
-      console.log(value)
       this.$store.commit('setGender', value)
     }
   }
