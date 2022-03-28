@@ -4,10 +4,10 @@
     name="nationality"
     v-on:change="$emit('natSelected', $event.target.value)">
     <option
-      v-for="(profile, key) in data"
+      v-for="(country, key) in data"
       v-bind:key="key"
-      v-bind:value="profile.nat"
-    >{{ alpha2[profile.nat] }}</option>
+      v-bind:value="country"
+    >{{ alpha2[country] }}</option>
   </select>
   </div>
 </template>

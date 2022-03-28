@@ -1,14 +1,9 @@
 <script setup>
-import { defineComponent } from 'vue';
-import ProfileItem from '../components/ProfileItem.vue';
-import { LayoutGrid } from 'vue3-material';
-
+  import ProfileItem from '../components/ProfileItem.vue';
 </script>
 
 <template>
   <main>
-    <LayoutGrid>
-      <ProfileItem />
-    </LayoutGrid>
+    <ProfileItem />
   </main>
 </template>

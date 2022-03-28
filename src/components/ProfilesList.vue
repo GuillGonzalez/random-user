@@ -1,42 +1,51 @@
 <template>
-  <div>
-    <vm-button>It works</vm-button>
-    <h2>Profiles List</h2>
-    <h2> {{ ageSelection }} </h2>
-    <h2> {{ natSelection }} </h2>
-    <h2> {{ genderSelection }} </h2>
-    <h3>Activate filter {{ useFilter }}</h3>
-    <vue-toggle v-model="useFilter" />
+    <v-app-bar>
+      <h2>Profiles List</h2>
+    </v-app-bar>
 
-    <vue-select 
-      v-model="genderSelectedOptions"
-      :value="$store.genderSelection"
-      @input="updateGender"
-      @selected="updateGender"
-      :options="['female', 'male']"
-      close-on-select
-    ></vue-select>
-    
-    <vue-slider 
-      v-model="ageValue"
-      @change="updateAge(ageValue)"
-    ></vue-slider>
-    
-    <select-nat
-      v-bind:data="listData"
-      @natSelected = "updateNationality"
-    ></select-nat>
-    <ul>
-      <li
-        v-for="(profile, key) in listData"
-        v-bind:key="key">
-        <profile-item
-          v-bind:data="profile"
-          v-bind:useFilter="useFilter"
-        ></profile-item>
-      </li>
-    </ul>
-  </div>
+    <v-navigation-drawer>
+      <v-container class="d-flex flex-column justify-center ma-2">
+        <h2> {{ ageSelection }} </h2>
+        <h2> {{ natSelection }} </h2>
+        <h2> {{ genderSelection }} </h2>
+        <h3>Activate filter {{ useFilter }}</h3>
+        <vue-toggle v-model="useFilter" />
+        
+        <vue-select 
+          v-model="genderSelectedOptions"
+          :value="$store.genderSelection"
+          @input="updateGender"
+          @selected="updateGender"
+          :options="['female', 'male']"
+          close-on-select
+        ></vue-select>
+
+        <vue-slider 
+          v-model="ageValue"
+          @change="updateAge(ageValue)"
+        ></vue-slider>
+
+        <select-nat class="ma-3"
+          v-bind:data="uniqueCountries"
+          @natSelected = "updateNationality"
+        ></select-nat>
+      </v-container>
+    </v-navigation-drawer>
+
+  <v-main>
+    <v-container class="ma-2">
+      
+          <v-list
+            v-for="(profile, key) in listData"
+            v-bind:key="key">
+            <profile-item
+              v-bind:data="profile"
+              v-bind:useFilter="useFilter"
+            ></profile-item>
+          </v-list>
+      
+    </v-container>
+  </v-main>
 </template>
 
 <script>
@@ -50,7 +59,6 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import Slider from '@vueform/slider'
 import Toggle from '@vueform/toggle'
-import VmButton from 'vue3-material'
 
 export default {
   setup () {
@@ -59,8 +67,9 @@ export default {
     const listData = ref([])
     const axiosError = ref('')
     const genderSelectedOptions = ref('')
+    const uniqueCountries = []
 
-    axios.get(baseURL+'/?results=35')
+    axios.get(baseURL+'/?results=10')
       .then( function( response ){
         listData.value = response.data.results;
         sortCountries(listData.value)
@@ -86,6 +95,7 @@ export default {
       axiosError,
       listData,
       genderSelectedOptions,
+      uniqueCountries
     }
   },
   components: {
@@ -124,5 +134,8 @@ export default {
 <style scoped>
   .vue-select {
     margin: 3rem
+  }
+  nav {
+    padding: 1rem;
   }
 </style>

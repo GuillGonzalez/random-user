@@ -29,10 +29,14 @@
         genderSelection: computed(() => store.state.genderSelection),
         natSelection:    computed(() => store.state.nationality),
         isFiltered:      computed(() => {
-          //console.log ( store.state.age[1] + " / " + props.data.dob.age )
-          //console.log (store.state.genderSelection + " / " + props.data.gender)
-          //console.log (store.state.nationality + " / " + props.data.nat)
-
+          console.log('--------------------------------------------------')
+          console.log ('props nationality:' + props.data.nat);
+          console.log ('props gender:' + props.data.gender);
+          console.log ('Nationality:' + props.data.nat);
+          console.log ('GENDER:' + (store.state.genderSelection === props.data.gender));
+          console.log ('Nationality' + (store.state.nationality    === props.data.nat));
+          console.log ('AGE1'+(store.state.age[0] <= props.data.dob.age));
+          console.log ('AGE2'+(store.state.age[1] >= props.data.dob.age));
           store.state.genderSelection === props.data.gender &&
           store.state.nationality    === props.data.nat &&
           store.state.age[0] <= props.data.dob.age &&
@@ -49,3 +53,8 @@
     },
   }
 </script>
+
+<style scoped>
+
+
+</style>
