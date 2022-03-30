@@ -19,7 +19,9 @@
     data: Array,
     filter: String
   })
-  
+  console.log('select nat')
+  console.log(props.data)
+
   const alpha2 = {
     "AF": "Afghanistan",
     "AX": "Aland Islands",

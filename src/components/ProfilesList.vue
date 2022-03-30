@@ -4,7 +4,6 @@
     </v-app-bar>
 
     <v-navigation-drawer>
-      <v-container class="d-flex flex-column justify-center ma-2">
         <h2> {{ ageSelection }} </h2>
         <h2> {{ natSelection }} </h2>
         <h2> {{ genderSelection }} </h2>
@@ -20,6 +19,15 @@
           close-on-select
         ></vue-select>
 
+        <v-select
+          :items="['female','male']"
+          label="Gender"
+          v-on:change="updateGender()"
+          v-model="genderSelectedOptions"
+          :value="$store.genderSelection"
+          dense
+        ></v-select>
+
         <vue-slider 
           v-model="ageValue"
           @change="updateAge(ageValue)"
@@ -29,12 +37,19 @@
           v-bind:data="uniqueCountries"
           @natSelected = "updateNationality"
         ></select-nat>
-      </v-container>
+
+        <v-select
+            :items="uniqueCountries"
+            label="Standard"
+            dense
+          ></v-select>
+
     </v-navigation-drawer>
 
   <v-main>
-    <v-container class="ma-2">
-      
+    <v-container>
+      <v-layout column>
+        <v-flex>
           <v-list
             v-for="(profile, key) in listData"
             v-bind:key="key">
@@ -43,8 +58,13 @@
               v-bind:useFilter="useFilter"
             ></profile-item>
           </v-list>
-      
-    </v-container>
+
+        </v-flex>
+        <v-flex>
+          <h2>Selected Profile</h2>
+        </v-flex>
+      </v-layout>
+    </v-container>    
   </v-main>
 </template>
 
@@ -67,12 +87,12 @@ export default {
     const listData = ref([])
     const axiosError = ref('')
     const genderSelectedOptions = ref('')
-    const uniqueCountries = []
+    const uniqueCountries = ref([])
 
-    axios.get(baseURL+'/?results=10')
+    axios.get(baseURL+'/?results=20')
       .then( function( response ){
         listData.value = response.data.results;
-        sortCountries(listData.value)
+        uniqueCountries = sortCountries(listData.value)
       }.bind(this))
       .catch( function( error ){
         axiosError.value = error;
@@ -84,6 +104,8 @@ export default {
           uniqueCountries.push(e.nat)
         }
       })
+      return uniqueCountries.value
+      console.log(uniqueCountries)
      }
 
     store.commit('setGender', 'male')
@@ -120,6 +142,7 @@ export default {
       this.$store.commit('setAge', value)
     },
     updateGender (value) {
+      console.log('update gender')
       this.$store.commit('setGender', value)
     }
   }
@@ -130,12 +153,3 @@ export default {
 <style src="@vueform/slider/themes/default.css"></style>
 <style src="vue-next-select/dist/index.min.css"></style>
 <style src="@vueform/toggle/themes/default.css"></style>
-
-<style scoped>
-  .vue-select {
-    margin: 3rem
-  }
-  nav {
-    padding: 1rem;
-  }
-</style>

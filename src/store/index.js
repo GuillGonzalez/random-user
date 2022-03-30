@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 const state = {
   genderSelection: 'female',
   nationality: '',
-  age: [18, 99]
+  age: [18, 99],
+  profileSelected: {}
 }
 
 const mutations = {
@@ -18,7 +19,10 @@ const mutations = {
     state.age = n
   },
   setfilterMode (stage, n) {
-    stage.filterMode = n
+    state.filterMode = n
+  },
+  setProfileSelected (stage, n) {
+    state.profileSelected = n
   }
 }
 
